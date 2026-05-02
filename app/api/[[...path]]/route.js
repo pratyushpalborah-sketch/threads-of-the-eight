@@ -14,6 +14,12 @@ import { CRAFTS_SEED, STATES, CATEGORIES } from '@/lib/data/crafts-seed';
 import { CRAFT_VIDEOS, SUPPORTED_LANGS } from '@/lib/data/extras';
 import { ERAS, CRAFT_ERAS, ARTISANS, STATE_GEOMETRY } from '@/lib/data/timeline';
 
+const ALL_STATIC_CRAFTS = CRAFTS_SEED.map((c) => ({
+  ...c,
+  videoIds: CRAFT_VIDEOS[c.id] || [],
+  ...(CRAFT_ERAS[c.id] || {}),
+}));
+
 // ----- helpers -----
 const json = (data, init = {}) => NextResponse.json(data, init);
 const err = (msg, status = 400) => NextResponse.json({ error: msg }, { status });
@@ -23,6 +29,7 @@ let _videoMigrated = false;
 let _eraMigrated = false;
 async function ensureSeed() {
   const db = await getDb();
+  if (!db) return;
   if (!_videoMigrated) {
     for (const [cid, videoIds] of Object.entries(CRAFT_VIDEOS)) {
       await db.collection('crafts').updateOne({ id: cid }, { $set: { videoIds } });
@@ -131,7 +138,14 @@ async function handler(request, { params }) {
     // ---- GEOGRAPHY (state shapes for SVG map) ----
     if (path === 'geography' && method === 'GET') {
       const db = await getDb();
-      const counts = await db.collection('crafts').aggregate([{ $group: { _id: '$state', count: { $sum: 1 } } }]).toArray();
+      let counts = [];
+      if (db) {
+        counts = await db.collection('crafts').aggregate([{ $group: { _id: '$state', count: { $sum: 1 } } }]).toArray();
+      } else {
+        const countMap = {};
+        ALL_STATIC_CRAFTS.forEach(c => { countMap[c.state] = (countMap[c.state] || 0) + 1; });
+        counts = Object.entries(countMap).map(([state, count]) => ({ _id: state, count }));
+      }
       const map = Object.fromEntries(counts.map((c) => [c._id, c.count]));
       const out = STATE_GEOMETRY.map((g) => {
         const meta = STATES.find((s) => s.name === g.name);
@@ -143,7 +157,7 @@ async function handler(request, { params }) {
     // ---- TIMELINE ----
     if (path === 'timeline' && method === 'GET') {
       const db = await getDb();
-      const all = await db.collection('crafts').find({}, { projection: { _id: 0 } }).toArray();
+      const all = db ? await db.collection('crafts').find({}, { projection: { _id: 0 } }).toArray() : ALL_STATIC_CRAFTS;
       const byEra = {};
       for (const era of ERAS) byEra[era.id] = { era, crafts: [] };
       for (const c of all) {
@@ -159,7 +173,7 @@ async function handler(request, { params }) {
     // ---- ARTISANS ----
     if (path === 'artisans' && method === 'GET') {
       const db = await getDb();
-      const all = await db.collection('crafts').find({}, { projection: { _id: 0, id: 1, name: 1, state: 1, category: 1, images: 1 } }).toArray();
+      const all = db ? await db.collection('crafts').find({}, { projection: { _id: 0, id: 1, name: 1, state: 1, category: 1, images: 1 } }).toArray() : ALL_STATIC_CRAFTS;
       const cmap = Object.fromEntries(all.map((c) => [c.id, c]));
       const out = ARTISANS.map((a) => ({ ...a, craft: cmap[a.craftId] || null }));
       return json({ artisans: out });
@@ -184,18 +198,36 @@ async function handler(request, { params }) {
         ];
       }
       const db = await getDb();
-      const items = await db
-        .collection('crafts')
-        .find(filter, { projection: { _id: 0 } })
-        .sort({ state: 1, name: 1 })
-        .toArray();
+      let items = [];
+      if (db) {
+        items = await db
+          .collection('crafts')
+          .find(filter, { projection: { _id: 0 } })
+          .sort({ state: 1, name: 1 })
+          .toArray();
+      } else {
+        items = ALL_STATIC_CRAFTS.filter(c => {
+          if (state && state !== 'All' && c.state !== state) return false;
+          if (category && category !== 'All' && c.category !== category) return false;
+          if (q) {
+            const ql = q.toLowerCase();
+            return c.name.toLowerCase().includes(ql) || 
+                   (c.shortDescription || '').toLowerCase().includes(ql) || 
+                   (c.description || '').toLowerCase().includes(ql) || 
+                   c.state.toLowerCase().includes(ql) || 
+                   c.category.toLowerCase().includes(ql);
+          }
+          return true;
+        });
+        items.sort((a, b) => a.state.localeCompare(b.state) || a.name.localeCompare(b.name));
+      }
       return json({ crafts: items, count: items.length });
     }
 
     if (path.startsWith('crafts/') && method === 'GET') {
       const id = path.split('/')[1];
       const db = await getDb();
-      const c = await db.collection('crafts').findOne({ id }, { projection: { _id: 0 } });
+      const c = db ? await db.collection('crafts').findOne({ id }, { projection: { _id: 0 } }) : ALL_STATIC_CRAFTS.find(x => x.id === id);
       if (!c) return err('Not found', 404);
       return json({ craft: c });
     }
@@ -239,7 +271,7 @@ async function handler(request, { params }) {
     if (path === 'ai/summary' && method === 'POST') {
       const { craftId } = await request.json();
       const db = await getDb();
-      const c = await db.collection('crafts').findOne({ id: craftId });
+      const c = db ? await db.collection('crafts').findOne({ id: craftId }) : ALL_STATIC_CRAFTS.find(x => x.id === craftId);
       if (!c) return err('Craft not found', 404);
       // Try cached summary
       if (c.aiSummary) return json({ summary: c.aiSummary, cached: true });
@@ -253,7 +285,9 @@ async function handler(request, { params }) {
         temperature: 0.6,
         max_tokens: 350,
       });
-      await db.collection('crafts').updateOne({ id: craftId }, { $set: { aiSummary: summary, aiSummaryAt: new Date() } });
+      if (db) {
+        await db.collection('crafts').updateOne({ id: craftId }, { $set: { aiSummary: summary, aiSummaryAt: new Date() } });
+      }
       return json({ summary, cached: false });
     }
 
@@ -263,7 +297,7 @@ async function handler(request, { params }) {
       const supported = SUPPORTED_LANGS.find((l) => l.code === lang);
       if (!supported) return err('Unsupported language');
       const db = await getDb();
-      const c = await db.collection('crafts').findOne({ id: craftId });
+      const c = db ? await db.collection('crafts').findOne({ id: craftId }) : ALL_STATIC_CRAFTS.find(x => x.id === craftId);
       if (!c) return err('Craft not found', 404);
       if (lang === 'en') {
         return json({
@@ -300,7 +334,9 @@ async function handler(request, { params }) {
         description: parsed.description || '',
         culturalSignificance: parsed.culturalSignificance || '',
       };
-      await db.collection('crafts').updateOne({ id: craftId }, { $set: { [`translations.${lang}`]: { ...stash, translatedAt: new Date() } } });
+      if (db) {
+        await db.collection('crafts').updateOne({ id: craftId }, { $set: { [`translations.${lang}`]: { ...stash, translatedAt: new Date() } } });
+      }
       return json({ ...stash, lang, cached: false });
     }
 
@@ -308,7 +344,7 @@ async function handler(request, { params }) {
       const { craftIds } = await request.json();
       if (!Array.isArray(craftIds) || craftIds.length < 2) return err('Send at least 2 craftIds');
       const db = await getDb();
-      const list = await db.collection('crafts').find({ id: { $in: craftIds } }).toArray();
+      const list = db ? await db.collection('crafts').find({ id: { $in: craftIds } }).toArray() : ALL_STATIC_CRAFTS.filter(x => craftIds.includes(x.id));
       if (list.length < 2) return err('Crafts not found', 404);
       const lines = list
         .map(
@@ -337,25 +373,25 @@ async function handler(request, { params }) {
       // Load craft context if provided
       let craftContext = '';
       if (craftId) {
-        const c = await db.collection('crafts').findOne({ id: craftId });
+        const c = db ? await db.collection('crafts').findOne({ id: craftId }) : ALL_STATIC_CRAFTS.find(x => x.id === craftId);
         if (c) {
           craftContext = `Currently focused craft: ${c.name} (${c.state}, ${c.category}).\nDescription: ${c.description}\nMaterials: ${(c.materials||[]).join(', ')}.\nTechnique: ${c.technique}.\nMotifs: ${(c.motifs||[]).join(', ')}.\nCultural significance: ${c.culturalSignificance||''}.`;
         }
       }
 
       // Load full corpus (compact) for grounding
-      const all = await db.collection('crafts').find({}, { projection: { _id: 0, id: 1, name: 1, state: 1, category: 1, shortDescription: 1, materials: 1, technique: 1, motifs: 1 } }).toArray();
+      const all = db ? await db.collection('crafts').find({}, { projection: { _id: 0, id: 1, name: 1, state: 1, category: 1, shortDescription: 1, materials: 1, technique: 1, motifs: 1 } }).toArray() : ALL_STATIC_CRAFTS;
       const corpus = all
         .map((c) => `${c.name} (${c.state}, ${c.category}): ${c.shortDescription} Materials: ${(c.materials||[]).join('/')}. Technique: ${c.technique}.`)
         .join('\n');
 
       // Load history
-      const history = await db
+      const history = db ? await db
         .collection('chat_messages')
         .find({ sessionId })
         .sort({ createdAt: 1 })
         .limit(40)
-        .toArray();
+        .toArray() : [];
 
       const messages = [
         {
@@ -371,21 +407,23 @@ async function handler(request, { params }) {
 
       const reply = await chatComplete({ model: 'gpt-4o', messages, temperature: 0.6, max_tokens: 600 });
       const now = new Date();
-      await db.collection('chat_messages').insertMany([
-        { id: uuidv4(), sessionId, role: 'user', content: message, createdAt: now },
-        { id: uuidv4(), sessionId, role: 'assistant', content: reply, createdAt: new Date(now.getTime() + 1) },
-      ]);
+      if (db) {
+        await db.collection('chat_messages').insertMany([
+          { id: uuidv4(), sessionId, role: 'user', content: message, createdAt: now },
+          { id: uuidv4(), sessionId, role: 'assistant', content: reply, createdAt: new Date(now.getTime() + 1) },
+        ]);
+      }
       return json({ reply, sessionId });
     }
 
     if (path.startsWith('ai/chat/') && method === 'GET') {
       const sessionId = path.split('/')[2];
       const db = await getDb();
-      const msgs = await db
+      const msgs = db ? await db
         .collection('chat_messages')
         .find({ sessionId }, { projection: { _id: 0 } })
         .sort({ createdAt: 1 })
-        .toArray();
+        .toArray() : [];
       return json({ messages: msgs });
     }
 
