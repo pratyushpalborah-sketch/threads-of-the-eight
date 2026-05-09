@@ -29,7 +29,7 @@ const TEAM = [
     role: 'Cultural Research & Northeast Liaison',
     initials: 'AW',
     gradient: 'from-teal-700 via-emerald-700 to-stone-800',
-    image: '',
+    image: 'https://pps.services.adobe.com/api/profile/F048219668D23E580A495FF5@AdobeID/image/ab3a64aa-0d00-4e96-9414-fd9e0bb9f38f/276',
     note: 'Brought deep regional grounding to Khasi, Garo and Mizo material — and to the cross-border influences threaded through every entry.',
   },
   {
