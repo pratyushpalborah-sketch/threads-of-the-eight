@@ -56,6 +56,34 @@
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
   }
+  
+  body::before, body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 8vw;
+    max-width: 120px;
+    min-width: 40px;
+    background-image: url('/gamusa-texture.jpg');
+    background-size: 400% auto;
+    background-repeat: repeat-y;
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 40;
+  }
+  
+  body::before {
+    left: 0;
+    background-position: 0 0;
+  }
+  
+  body::after {
+    right: 0;
+    background-position: 100% 0;
+  }
+
   h1, h2, h3, h4, .font-serif { font-family: 'Cormorant Garamond', 'Georgia', serif; letter-spacing: -0.01em; }
 }
 
