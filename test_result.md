@@ -238,7 +238,7 @@ frontend:
     status_history:
         -working: true
         -agent: "testing"
-        -comment: "✅ COMPREHENSIVE TEST PASSED: Artisans page with hero 'Meet the artisans' and subtitle about composite tributes working perfectly. Exactly 11 artisan profile cards in 2-column grid. All expected artisans found (Hem Chandra Goswami, Bina, Pema, Tashi). 11 years badges, 11 blockquotes with quotes, 11 'Explore the craft' links. Hem Chandra Goswami's Majuli Masks link navigates correctly to /craft/majuli-masks. Mobile responsive (collapses to 1 column). All artisan cards have photos, names, villages, states, quotes, and bios."
+        -comment: "✅ COMPREHENSIVE TEST PASSED: Artisans page with hero 'Meet the artisans' and subtitle about composite tributes working perfectly. Exactly 11 artisan profile cards in 2-column grid. All expected artisans found (Hem Chandra Goswami, Ranjith Deka, Pema, Mingyur Dorjee Bhutia). 11 years badges, 11 blockquotes with quotes, 11 'Explore the craft' links. Hem Chandra Goswami's Majuli Masks link navigates correctly to /craft/majuli-masks. Mobile responsive (collapses to 1 column). All artisan cards have photos, names, villages, states, quotes, and bios."
   - task: "Updated navbar with Timeline + Artisans links"
     implemented: true
     working: true
@@ -490,7 +490,7 @@ agent_communication:
       ✅ ARTISANS PAGE VERIFIED (/artisans):
       • Hero section "Meet the artisans" with subtitle about composite tributes
       • Exactly 11 artisan profile cards in 2-column grid (collapses to 1 column on mobile)
-      • All expected artisans found: Hem Chandra Goswami (Master Mukha-maker), Bina (Muga silk weaver), Pema (Monpa mask carver), Tashi (Thangka painter), etc.
+      • All expected artisans found: Hem Chandra Goswami (Master Mukha-maker), Ranjith Deka (Muga silk weaver), Pema (Monpa mask carver), Mingyur Dorjee Bhutia (Thangka painter), etc.
       • Each card has: photo, name, years badge (e.g., "38 YRS"), village + state with pin icon, italic quote with quote icon, biography, "Explore the craft" link
       • Hem Chandra Goswami's "Explore the craft · Majuli Masks" link navigates correctly to /craft/majuli-masks
       • All 11 artisan cards functional with proper layout and navigation
