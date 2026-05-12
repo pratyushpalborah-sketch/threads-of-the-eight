@@ -8,7 +8,6 @@ const TEAM = [
   {
     id: 'aabhipsita',
     name: 'Aabhipsita Chowdhury',
-    role: 'Curatorial Lead',
     initials: 'AC',
     gradient: 'from-amber-700 via-rose-700 to-stone-800',
     image: 'https://pps.services.adobe.com/api/profile/8D2C229F687531300A495E83@AdobeID/image/99ca116e-92c1-4d94-a614-3965ba4ff0ee/276',
@@ -17,7 +16,6 @@ const TEAM = [
   {
     id: 'abhijith',
     name: 'Abhijith Anoop',
-    role: 'Interaction & Interface Design',
     initials: 'AA',
     gradient: 'from-emerald-700 via-cyan-700 to-stone-800',
     image: 'https://pps.services.adobe.com/api/profile/625720BB631B02650A495C24@AdobeID/image/96c38441-74a2-415d-acea-5ae2b1fb58ba/276',
@@ -26,7 +24,6 @@ const TEAM = [
   {
     id: 'adeleen',
     name: 'Adeleen Warbah',
-    role: 'Cultural Research & Northeast Liaison',
     initials: 'AW',
     gradient: 'from-teal-700 via-emerald-700 to-stone-800',
     image: 'https://pps.services.adobe.com/api/profile/F048219668D23E580A495FF5@AdobeID/image/ab3a64aa-0d00-4e96-9414-fd9e0bb9f38f/276',
@@ -35,7 +32,6 @@ const TEAM = [
   {
     id: 'Geetmala',
     name: 'Geetmala Kalita',
-    role: 'Visual & Pattern Research',
     initials: 'GK',
     gradient: 'from-rose-700 via-purple-700 to-stone-800',
     image: 'https://mir-s3-cdn-cf.behance.net/user/276/5b316c1364629831.69f4fb0e03313.jpg',
@@ -44,7 +40,6 @@ const TEAM = [
   {
     id: 'pratyushpal',
     name: 'Pratyushpal Borah',
-    role: 'Editorial & Documentation',
     initials: 'PB',
     gradient: 'from-orange-700 via-amber-700 to-stone-800',
     image: 'https://pps.services.adobe.com/api/profile/19E71E0B66FCEA140A495FEF@AdobeID/image/9536c116-af8a-4b79-93eb-64ee39dff203/276',
@@ -92,7 +87,6 @@ export default function TeamPage() {
                 </div>
               )}
               <h2 className="font-serif text-2xl leading-tight">{m.name}</h2>
-              <div className="text-xs uppercase tracking-[0.2em] text-amber-700 mt-1.5">{m.role}</div>
               <p className="text-sm text-stone-600 leading-relaxed mt-4">{m.note}</p>
             </motion.article>
           ))}
