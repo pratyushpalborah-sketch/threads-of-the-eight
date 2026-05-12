@@ -227,7 +227,7 @@ frontend:
     status_history:
         -working: true
         -agent: "testing"
-        -comment: "✅ COMPREHENSIVE TEST PASSED: Timeline page with title 'A timeline of Northeast craft' and subtitle about Neolithic potsherds working perfectly. Found 8 era sections with all 5 expected eras (Neolithic & Ancient, Tribal Continuum, Meitei Antiquity, Himalayan Buddhist, Pal & Ahom Patronage). 7 era date pills with gradient colors. 30 craft cards with century labels, thumbnails, and navigation to /craft/<id>. Vertical timeline line present. Alternating left/right layout working. Craft card clicks navigate correctly."
+        -comment: "✅ COMPREHENSIVE TEST PASSED: Timeline page with title 'A timeline of Northeast craft' and subtitle about Neolithic potsherds working perfectly. Found 8 era sections with all 5 expected eras (Neolithic & Ancient, IndigenousContinuum, Meitei Antiquity, Himalayan Buddhist, Pal & Ahom Patronage). 7 era date pills with gradient colors. 30 craft cards with century labels, thumbnails, and navigation to /craft/<id>. Vertical timeline line present. Alternating left/right layout working. Craft card clicks navigate correctly."
   - task: "Artisans page (/artisans) with profile cards"
     implemented: true
     working: true
@@ -480,7 +480,7 @@ agent_communication:
       
       ✅ TIMELINE PAGE VERIFIED (/timeline):
       • Page title "A timeline of Northeast craft" with subtitle about Neolithic potsherds
-      • Found 8 era sections with all expected eras: Neolithic & Ancient, Tribal Continuum, Meitei Antiquity, Himalayan Buddhist, Pal & Ahom Patronage
+      • Found 8 era sections with all expected eras: Neolithic & Ancient, IndigenousContinuum, Meitei Antiquity, Himalayan Buddhist, Pal & Ahom Patronage
       • 7 era date pills with gradient colors (e.g., "PRE-500 CE", "8–15 C. CE")
       • 30 craft cards with century labels, thumbnails, state, name, and history snippets
       • Vertical timeline line with dots at each era
