@@ -238,7 +238,7 @@ frontend:
     status_history:
         -working: true
         -agent: "testing"
-        -comment: "✅ COMPREHENSIVE TEST PASSED: Artisans page with hero 'Meet the artisans' and subtitle about composite tributes working perfectly. Exactly 11 artisan profile cards in 2-column grid. All expected artisans found (Khema, Bina, Pema, Tashi). 11 years badges, 11 blockquotes with quotes, 11 'Explore the craft' links. Khema's Majuli Masks link navigates correctly to /craft/majuli-masks. Mobile responsive (collapses to 1 column). All artisan cards have photos, names, villages, states, quotes, and bios."
+        -comment: "✅ COMPREHENSIVE TEST PASSED: Artisans page with hero 'Meet the artisans' and subtitle about composite tributes working perfectly. Exactly 11 artisan profile cards in 2-column grid. All expected artisans found (Hem Chandra Goswami, Bina, Pema, Tashi). 11 years badges, 11 blockquotes with quotes, 11 'Explore the craft' links. Hem Chandra Goswami's Majuli Masks link navigates correctly to /craft/majuli-masks. Mobile responsive (collapses to 1 column). All artisan cards have photos, names, villages, states, quotes, and bios."
   - task: "Updated navbar with Timeline + Artisans links"
     implemented: true
     working: true
@@ -260,7 +260,7 @@ frontend:
     status_history:
         -working: true
         -agent: "testing"
-        -comment: "✅ COMPREHENSIVE TEST PASSED: All 3 new API endpoints working perfectly. /api/geography returns 8 states with all required fields (path, label, count, color, tagline). /api/timeline returns 7 era bands with correct era-band structure. /api/artisans returns 11 artisans with linked craft objects. Sample data: Sikkim with 4 crafts, Neolithic & Ancient era with 4 crafts, Khema linked to Majuli Masks."
+        -comment: "✅ COMPREHENSIVE TEST PASSED: All 3 new API endpoints working perfectly. /api/geography returns 8 states with all required fields (path, label, count, color, tagline). /api/timeline returns 7 era bands with correct era-band structure. /api/artisans returns 11 artisans with linked craft objects. Sample data: Sikkim with 4 crafts, Neolithic & Ancient era with 4 crafts, Hem Chandra Goswami linked to Majuli Masks."
   - task: "Gallery page with filters, search and state-grouped layout"
     implemented: true
     working: true
@@ -490,16 +490,16 @@ agent_communication:
       ✅ ARTISANS PAGE VERIFIED (/artisans):
       • Hero section "Meet the artisans" with subtitle about composite tributes
       • Exactly 11 artisan profile cards in 2-column grid (collapses to 1 column on mobile)
-      • All expected artisans found: Khema (Master Mukha-maker), Bina (Muga silk weaver), Pema (Monpa mask carver), Tashi (Thangka painter), etc.
+      • All expected artisans found: Hem Chandra Goswami (Master Mukha-maker), Bina (Muga silk weaver), Pema (Monpa mask carver), Tashi (Thangka painter), etc.
       • Each card has: photo, name, years badge (e.g., "38 YRS"), village + state with pin icon, italic quote with quote icon, biography, "Explore the craft" link
-      • Khema's "Explore the craft · Majuli Masks" link navigates correctly to /craft/majuli-masks
+      • Hem Chandra Goswami's "Explore the craft · Majuli Masks" link navigates correctly to /craft/majuli-masks
       • All 11 artisan cards functional with proper layout and navigation
       
       ✅ BACKEND API ENDPOINTS VERIFIED:
       • GET /api/geography → returns 8 states with all required fields (path, label, count, color, tagline)
       • GET /api/timeline → returns 7 era bands with correct era-band structure (era info + crafts list)
       • GET /api/artisans → returns 11 artisans with linked craft objects
-      • Sample data confirmed: Sikkim with 4 crafts, Neolithic & Ancient era with 4 crafts, Khema linked to Majuli Masks
+      • Sample data confirmed: Sikkim with 4 crafts, Neolithic & Ancient era with 4 crafts, Hem Chandra Goswami linked to Majuli Masks
       
       🎯 ALL NEW FEATURES PRODUCTION-READY:
       • Interactive SVG map replaces old grid successfully
