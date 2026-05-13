@@ -63,6 +63,11 @@ export default function ContemporaryArtisansPage() {
                   Explore the craft · {a.craft.name} <ArrowRight className="w-4 h-4" />
                 </Link>
               )}
+              {a.website && (
+                <a href={a.website} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1.5 text-amber-700 text-sm font-medium hover:translate-x-0.5 transition-transform self-start">
+                  Visit Creator's Website <ArrowRight className="w-4 h-4" />
+                </a>
+              )}
             </div>
           </motion.article>
         ))}
