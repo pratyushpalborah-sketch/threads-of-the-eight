@@ -52,8 +52,8 @@ export default function HomePage() {
               {[
                 { n: '8', l: 'States' },
                 { n: '30+', l: 'Crafts' },
-                { n: '7', l: 'Categories' },
-                { n: '5', l: 'Languages' },
+                { n: '5', l: 'Categories' },
+                { n: '220', l: 'Languages' },
               ].map((s) => (
                 <div key={s.l} className="bg-white/5 backdrop-blur border border-amber-200/15 rounded-xl px-5 py-4">
                   <div className="font-serif text-3xl text-amber-200">{s.n}</div>
