@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Search, Layers, Shield, LogIn, LogOut, User, Clock, Users, GraduationCap } from 'lucide-react';
+import { Sparkles, Search, Layers, Shield, LogIn, LogOut, User, Clock, Users, GraduationCap, Palette } from 'lucide-react';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -38,6 +38,7 @@ export default function Navbar() {
           {link('/gallery', 'Gallery', Search)}
           {link('/timeline', 'Timeline', Clock)}
           {link('/artisans', 'Artisans', Users)}
+          {link('/contemporary-artisans', 'Contemporary Artisans', Palette)}
           {link('/team', 'Team', GraduationCap)}
           {link('/compare', 'Compare', Layers)}
           {user?.role === 'admin' && link('/admin', 'Admin', Shield)}

@@ -12,7 +12,7 @@ import {
 import { chatComplete } from '@/lib/llm';
 import { CRAFTS_SEED, STATES, CATEGORIES } from '@/lib/data/crafts-seed';
 import { CRAFT_VIDEOS, SUPPORTED_LANGS } from '@/lib/data/extras';
-import { ERAS, CRAFT_ERAS, ARTISANS, STATE_GEOMETRY } from '@/lib/data/timeline';
+import { ERAS, CRAFT_ERAS, ARTISANS, STATE_GEOMETRY, CONTEMPORARY_ARTISANS } from '@/lib/data/timeline';
 
 const ALL_STATIC_CRAFTS = CRAFTS_SEED.map((c) => ({
   ...c,
@@ -176,6 +176,15 @@ async function handler(request, { params }) {
       const all = db ? await db.collection('crafts').find({}, { projection: { _id: 0, id: 1, name: 1, state: 1, category: 1, images: 1 } }).toArray() : ALL_STATIC_CRAFTS;
       const cmap = Object.fromEntries(all.map((c) => [c.id, c]));
       const out = ARTISANS.map((a) => ({ ...a, craft: cmap[a.craftId] || null }));
+      return json({ artisans: out });
+    }
+
+    // ---- CONTEMPORARY ARTISANS ----
+    if (path === 'contemporary-artisans' && method === 'GET') {
+      const db = await getDb();
+      const all = db ? await db.collection('crafts').find({}, { projection: { _id: 0, id: 1, name: 1, state: 1, category: 1, images: 1 } }).toArray() : ALL_STATIC_CRAFTS;
+      const cmap = Object.fromEntries(all.map((c) => [c.id, c]));
+      const out = CONTEMPORARY_ARTISANS.map((a) => ({ ...a, craft: cmap[a.craftId] || null }));
       return json({ artisans: out });
     }
 
