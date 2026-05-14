@@ -11,7 +11,7 @@ const TEAM = [
     initials: 'AC',
     gradient: 'from-amber-700 via-rose-700 to-stone-800',
     image: 'https://pps.services.adobe.com/api/profile/8D2C229F687531300A495E83@AdobeID/image/99ca116e-92c1-4d94-a614-3965ba4ff0ee/276',
-    note: 'Anchored the editorial voice of the museum and the structure of each craft entry — from materials to motifs to threats.',
+    note: 'Anchored the editorial voice of the museum and the structure of each craft entry from materials to motifs to threats.',
   },
   {
     id: 'abhijith',
@@ -19,7 +19,7 @@ const TEAM = [
     initials: 'AA',
     gradient: 'from-emerald-700 via-cyan-700 to-stone-800',
     image: 'https://pps.services.adobe.com/api/profile/625720BB631B02650A495C24@AdobeID/image/96c38441-74a2-415d-acea-5ae2b1fb58ba/276',
-    note: 'Shaped the visitor journey — the hero, the gallery filters, the timeline\'s alternating bands and the in-page chat sidebar.',
+    note: 'Shaped the visitor journey, the hero, the gallery filters, the timeline\'s alternating bands and the in-page chat sidebar.',
   },
   {
     id: 'adeleen',
@@ -27,7 +27,7 @@ const TEAM = [
     initials: 'AW',
     gradient: 'from-teal-700 via-emerald-700 to-stone-800',
     image: 'https://pps.services.adobe.com/api/profile/F048219668D23E580A495FF5@AdobeID/image/ab3a64aa-0d00-4e96-9414-fd9e0bb9f38f/276',
-    note: 'Brought deep regional grounding to Khasi, Garo and Mizo material — and to the cross-border influences threaded through every entry.',
+    note: 'Brought deep regional grounding to Khasi, Garo and Mizo material, and to the cross-border influences threaded through every entry.',
   },
   {
     id: 'Geetmala',
@@ -35,7 +35,7 @@ const TEAM = [
     initials: 'GK',
     gradient: 'from-rose-700 via-purple-700 to-stone-800',
     image: 'https://mir-s3-cdn-cf.behance.net/user/276/5b316c1364629831.69f4fb0e03313.jpg',
-    note: 'Curated the visual language — image selection, the "Patterns and texture studies" galleries and the museum\'s colour palette.',
+    note: 'Curated the visual language, image selection, the "Patterns and texture studies" galleries and the museum\'s colour palette.',
   },
   {
     id: 'pratyushpal',
@@ -43,7 +43,7 @@ const TEAM = [
     initials: 'PB',
     gradient: 'from-orange-700 via-amber-700 to-stone-800',
     image: 'https://pps.services.adobe.com/api/profile/19E71E0B66FCEA140A495FEF@AdobeID/image/9536c116-af8a-4b79-93eb-64ee39dff203/276',
-    note: 'Wrote and refined the long-form descriptions, technique notes and historical timelines that anchor every craft.',
+    note: 'Created the website, technique notes and historical timelines that anchor every craft.',
   },
 ];
 
